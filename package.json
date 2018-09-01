@@ -1,0 +1,26 @@
+{
+  "name": "window-prebuilt",
+  "version": "0.0.1",
+  "description": "Prebuilt for Window (by Steve Kemp)",
+  "main": "index.js",
+  "keywords": [
+    "window"
+  ],
+  "author": "Branza Alexandru <branza.alex@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "request": "2.65.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jaruba/window-prebuilt.git"
+  },
+  "bugs": {
+    "url": "http://github.com/jaruba/window-prebuilt/issues",
+    "email": "branza.alex@gmail.com"
+  },
+  "scripts": {
+    "postinstall": "node install.js"
+  }
+}
