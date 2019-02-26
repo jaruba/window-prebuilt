@@ -1,27 +1,30 @@
-var request = require('request')
-var fs = require('fs')
-var path = require('path');
 
-var user = 'jaruba'
-var tag = '0.0.1'
-var repoName = 'window-prebuilt'
-var pkg = 'window.exe'
-var url = 'https://github.com/' + user + '/' + repoName + '/releases/download/' + tag + '/' + pkg
-var binDir = path.resolve(__dirname, '../..', 'bin');
+if (process.platform == 'win32') {
+  var request = require('request')
+  var fs = require('fs')
+  var path = require('path');
 
-if (!fs.existsSync(binDir))
-  fs.mkdirSync(binDir);
+  var user = 'jaruba'
+  var tag = '0.0.1'
+  var repoName = 'window-prebuilt'
+  var pkg = 'window.exe'
+  var url = 'https://github.com/' + user + '/' + repoName + '/releases/download/' + tag + '/' + pkg
+  var binDir = path.resolve(__dirname, '../..', 'bin');
 
-request
-  .get(url)
-  .on('error', function (err) {
-    throw err
-  })
-  .pipe(fs.createWriteStream(pkg))
-  .on('close', function () {
+  if (!fs.existsSync(binDir))
+    fs.mkdirSync(binDir);
 
-    if (!fs.existsSync(path.join(binDir, 'window')))
-      fs.mkdirSync(path.join(binDir, 'window'));
+  request
+    .get(url)
+    .on('error', function (err) {
+      throw err
+    })
+    .pipe(fs.createWriteStream(pkg))
+    .on('close', function () {
 
-    fs.rename(pkg, path.join(binDir, 'window', 'window.exe'));
-  })
+      if (!fs.existsSync(path.join(binDir, 'window')))
+        fs.mkdirSync(path.join(binDir, 'window'));
+
+      fs.rename(pkg, path.join(binDir, 'window', 'window.exe'));
+    })
+}

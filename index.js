@@ -4,23 +4,26 @@ var child = require('child_process')
 
 var back = '../..';
 var binDir = path.resolve(__dirname, back, 'bin');
+var windowExec
 
-// in case of asar, go one level down
-while (binDir.includes('/app.asar/') || binDir.includes('\\app.asar\\')) {
-    back += '/..'
-    binDir = path.resolve(__dirname, back, 'bin');
+if (process.platform == 'win32') {
+	// in case of asar, go one level down
+	while (binDir.includes('/app.asar/') || binDir.includes('\\app.asar\\')) {
+	    back += '/..'
+	    binDir = path.resolve(__dirname, back, 'bin');
+	}
+
+	// for safety
+	if (!fs.existsSync(binDir)) {
+	  back += '/..'
+	  binDir = path.resolve(__dirname, back, 'bin');
+	}
+
+	windowExec = path.join(binDir, 'window')
+
+	if (fs.existsSync(path.join(windowExec, 'window.exe')))
+	  windowExec = path.join(windowExec, 'window.exe')
 }
-
-// for safety
-if (!fs.existsSync(binDir)) {
-  back += '/..'
-  binDir = path.resolve(__dirname, back, 'bin');
-}
-
-var windowExec = path.join(binDir, 'window')
-
-if (fs.existsSync(path.join(windowExec, 'window.exe')))
-  windowExec = path.join(windowExec, 'window.exe')
 
 module.exports = function(type) {
   child.exec('"' + windowExec + '" /HIDE ' + type);
